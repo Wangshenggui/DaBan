@@ -31,8 +31,7 @@ f103rc\posideter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 f103rc\posideter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 f103rc\posideter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 f103rc\posideter.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
-f103rc\posideter.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h
+f103rc\posideter.o: D:\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\arm_math.h
+f103rc\posideter.o: D:\Keil\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include\core_cm3.h
 f103rc\posideter.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
 f103rc\posideter.o: D:\Keil\ARM\ARMCC\Bin\..\include\math.h
-f103rc\posideter.o: D:\Keil\ARM\ARMCC\Bin\..\include\float.h
-f103rc\posideter.o: D:\Keil\ARM\ARMCC\Bin\..\include\limits.h

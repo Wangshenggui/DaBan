@@ -256,6 +256,27 @@ void StartSlaveControlTask(void const * argument)
 			TaskSendRead();
         }
         osDelay(1);
+        
+        /*
+        #include <stdio.h>
+//        osDelay(200);
+        
+        uint8_t *p1;
+        uint8_t *p2;
+        
+        p1 = pvPortMalloc(1);
+        sprintf((char*)p1,"p1 1234567890：%d\r\np1地址:0x%p p1你干嘛哎哟，草泥马\r\n",xPortGetFreeHeapSize(),p1);
+        
+        p2 = pvPortMalloc(1);
+        sprintf((char*)p2,"p2 1234567890：%d\r\np2地址:0x%p p2你干嘛哎哟，草泥马\r\n\r\n",xPortGetFreeHeapSize(),p2);
+        
+        HAL_UART_Transmit(&huart4, p1, strlen((char*)p1),1000);
+        HAL_UART_Transmit(&huart4, p2, strlen((char*)p2),1000);
+        
+        vPortFree(p1);
+        vPortFree(p2);
+        */
+        
     }
   /* USER CODE END StartSlaveControlTask */
 }
