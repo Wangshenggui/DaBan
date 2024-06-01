@@ -221,7 +221,7 @@ void StartSlaveControlTask(void const * argument)
         
 		static uint16_t xxx = 0;
         //Ë®±Ã¿ªÆôÊ±
-        if (RunGuidance_Struct.SysBeng == 1)
+        if (1)
         {
 			
 			uint8_t temp = RTK_Speed*30;
@@ -229,7 +229,7 @@ void StartSlaveControlTask(void const * argument)
 			{
 				temp = 0x40;
 			}
-            TaskSendSpeed(0x20);
+            TaskSendSpeed(62);
 			
 			HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
             
