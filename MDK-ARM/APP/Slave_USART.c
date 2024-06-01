@@ -86,7 +86,7 @@ void TaskSendSpeed(uint8_t speed)
         taskENTER_CRITICAL();
         SendSlaveSpeed(Slave_number, speed,0xc1);
         taskEXIT_CRITICAL();
-        osDelay(10);
+//        osDelay(1);
 
         taskENTER_CRITICAL();
         SendSlaveReadCMD(Slave_number);
@@ -149,7 +149,7 @@ void TaskSendRead()
     }
 }
 
-//发送速度消息
+//发送速度消息z
 void SendSlaveSpeed(uint8_t slace_add, uint8_t speed,uint8_t dir)
 {
     static uint8_t Tx_CMD[10] = { 0 };

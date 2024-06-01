@@ -225,6 +225,7 @@ void StartSlaveControlTask(void const * argument)
         {
 			
             float speed = RTK_Speed*0.5144;//m.s
+//			float speed = 1;//m.s
             
             float L = 0.1;
             

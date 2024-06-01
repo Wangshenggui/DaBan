@@ -1,7 +1,7 @@
 f103rc\freertos.o: ../Core/Src/freertos.c
 f103rc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-f103rc\freertos.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
-f103rc\freertos.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+f103rc\freertos.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+f103rc\freertos.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 f103rc\freertos.o: ../Core/Inc/FreeRTOSConfig.h
 f103rc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 f103rc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
@@ -45,10 +45,10 @@ f103rc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 f103rc\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 f103rc\freertos.o: ./APP/Slave_USART.h
 f103rc\freertos.o: ../Core/Inc/usart.h
-f103rc\freertos.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+f103rc\freertos.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdbool.h
 f103rc\freertos.o: ./APP/UpperCom_USART.h
 f103rc\freertos.o: ../Core/Inc/iwdg.h
-f103rc\freertos.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+f103rc\freertos.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 f103rc\freertos.o: ./APP/GPS.h
 f103rc\freertos.o: ./Public/system.h
 f103rc\freertos.o: ./APP/PosiDeter.h
