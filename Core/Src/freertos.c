@@ -224,12 +224,31 @@ void StartSlaveControlTask(void const * argument)
         if (1)
         {
 			
-			uint8_t temp = RTK_Speed*30;
-			if(temp > 0x40)
+            float speed = RTK_Speed*0.5144;//m.s
+            
+            float L = 0.1;
+            
+            float value = 31*(speed/L)/10;
+            
+			if(value > 0x40)
 			{
-				temp = 0x40;
+				value = 0x40;
 			}
-            TaskSendSpeed(62);
+            
+            TaskSendSpeed(value);
+//            //\
+//            1/s   0.2m
+//            TaskSendSpeed(15);
+//            //\
+//            1/s   0.1m
+//            TaskSendSpeed(31);
+//            
+//            //\
+//            2/s   0.2m
+//            TaskSendSpeed(31);
+//            //\
+//            2/s   0.1m
+//            TaskSendSpeed(62);
 			
 			HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
             
