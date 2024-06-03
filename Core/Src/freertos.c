@@ -199,6 +199,9 @@ void StartSlaveControlTask(void const * argument)
     osThreadSuspend(EXTIISRTaskHandle);
     //初始化GPS
     GPS_Init();
+	
+	//初始化边缘数据
+    EdgeComputing_Init();
     osThreadResume(EXTIISRTaskHandle);
     
     #include "tim.h"
@@ -213,8 +216,7 @@ void StartSlaveControlTask(void const * argument)
     {
         Error_Handler();
     }
-    //初始化边缘数据
-    EdgeComputing_Init();
+    
     /* Infinite loop */
     for (;;)
     {
@@ -278,7 +280,7 @@ void StartSlaveControlTask(void const * argument)
         //边缘计算
         EdgeComputing(LocationJudging_Struct);
         
-        osDelay(1);
+        osDelay(100);
         
         
         

@@ -1,9 +1,9 @@
 f103rc\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-f103rc\cmsis_os.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+f103rc\cmsis_os.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 f103rc\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 f103rc\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-f103rc\cmsis_os.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
-f103rc\cmsis_os.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+f103rc\cmsis_os.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+f103rc\cmsis_os.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 f103rc\cmsis_os.o: ../Core/Inc/FreeRTOSConfig.h
 f103rc\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 f103rc\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

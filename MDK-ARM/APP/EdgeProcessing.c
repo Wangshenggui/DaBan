@@ -39,7 +39,7 @@ void EdgeComputing_Init(void)
     LocationJudging_Struct.Flag[3] = 0;
     
     // 赋值
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < POINTCOUNT; i++)
     {
         LocationJudging_Struct.MapDat[i][0] = MapDat[i][0];
         LocationJudging_Struct.MapDat[i][1] = MapDat[i][1];
@@ -121,23 +121,23 @@ void EdgeComputing(LocationJudging_Structure locJudStr)
     templon = dms_to_degrees(RTK_Longitude);
     
     //第1个
-    destination_point(templat, templon, .014, 0, &lat2, &lon2);//推算出另外一个坐标
+    destination_point(templat, templon, .014, 45, &lat2, &lon2);//推算出另外一个坐标
     locJudStr.Flag[0] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
     //第2个
-    destination_point(templat, templon, .038, 0, &lat2, &lon2);
+    destination_point(templat, templon, .038, 45, &lat2, &lon2);
     locJudStr.Flag[1] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
     //第3个
-    destination_point(templat, templon, .064, 0, &lat2, &lon2);
+    destination_point(templat, templon, .064, 45, &lat2, &lon2);
     locJudStr.Flag[2] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
     //第4个
-    destination_point(templat, templon, .088, 0, &lat2, &lon2);
+    destination_point(templat, templon, .088, 45, &lat2, &lon2);
     locJudStr.Flag[3] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
     
     
     uint32_t e = SysTick->VAL;
     HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
     sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
-    HAL_UART_Transmit_DMA(RTK_UART, (uint8_t*)str, strlen(str));
+    HAL_UART_Transmit(RTK_UART, (uint8_t*)str, strlen(str),1000);
     
 }
 
