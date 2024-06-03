@@ -49,7 +49,7 @@ void TIM4_PeriodElapsedCallback()
     if(t==80)
     {
         t=0;
-//        if(UpFlag==1)
+        if(UpFlag==1)
         {
             osSemaphoreRelease(UpperComBinSemHandle);//释放上传信号量
         }
