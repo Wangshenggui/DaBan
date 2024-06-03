@@ -82,38 +82,42 @@ void TaskSendSpeed(uint8_t speed)
 {
     for (uint8_t i = 0; i < 4; i++)
     {
-        Slave_number = i + 1;
-        taskENTER_CRITICAL();
-        SendSlaveSpeed(Slave_number, speed,0xc1);
-        taskEXIT_CRITICAL();
-//        osDelay(1);
+        //边缘edge
+//        if(Edge == )
+        {
+            Slave_number = i + 1;
+            taskENTER_CRITICAL();
+            SendSlaveSpeed(Slave_number, speed,0xc1);
+            taskEXIT_CRITICAL();
+    //        osDelay(1);
 
-        taskENTER_CRITICAL();
-        SendSlaveReadCMD(Slave_number);
-        taskEXIT_CRITICAL();
-//        osDelay(100);
-		while(1)
-		{
-			osDelay(1);
-			static uint8_t t=0;
-			if(USART3_RxStruct.Flag == 1)
-			{
-				USART3_RxStruct.Flag = 0;
-				
-				
-				break;
-			}
-			else
-			{
-				//超时处理（t ms内没有数据返回则跳过）
-				t++;
-				if(t==100)
-				{
-					t=0;
-					break;
-				}
-			}
-		}
+            taskENTER_CRITICAL();
+            SendSlaveReadCMD(Slave_number);
+            taskEXIT_CRITICAL();
+    //        osDelay(100);
+            while(1)
+            {
+                osDelay(1);
+                static uint8_t t=0;
+                if(USART3_RxStruct.Flag == 1)
+                {
+                    USART3_RxStruct.Flag = 0;
+                    
+                    
+                    break;
+                }
+                else
+                {
+                    //超时处理（t ms内没有数据返回则跳过）
+                    t++;
+                    if(t==100)
+                    {
+                        t=0;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 

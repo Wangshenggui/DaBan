@@ -31,14 +31,14 @@
 #include <string.h>
 #include "GPS.h"
 #include "system.h"
-#include "PosiDeter.h"
+#include "RTK_usart_it.h"
+#include "EdgeProcessing.h"
 #include "RTK_usart_it.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-//判断仓是否在圈内
-uint8_t LocJudBit[4]={0};
+
 extern double RTK_Longitude;
 extern double RTK_Latitude;
 extern double RTK_CourseAngle;
@@ -213,6 +213,8 @@ void StartSlaveControlTask(void const * argument)
     {
         Error_Handler();
     }
+    //初始化边缘数据
+    EdgeComputing_Init();
     /* Infinite loop */
     for (;;)
     {
@@ -270,7 +272,15 @@ void StartSlaveControlTask(void const * argument)
             }
 			TaskSendRead();
         }
+        
+        
+        
+        //边缘计算
+        EdgeComputing(LocationJudging_Struct);
+        
         osDelay(1);
+        
+        
         
         /*
         #include <stdio.h>
@@ -362,44 +372,7 @@ void StartEXTIISRTask(void const * argument)
             //HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);
         }
 
-        // 定义多边形的顶点坐标数组
-        double MapDat[4][2] = {
-            {116.436837,39.897967},
-            {116.437129,39.897964},
-            {116.437129,39.897729},
-            {116.436828,39.897743}
-        };
         
-        char str[100];
-        double lat2, lon2;
-        double templat, templon;
-        HAL_SYSTICK_Config(1000000);
-        taskENTER_CRITICAL();
-        int s = SysTick->VAL = 0;
-        
-        templat = dms_to_degrees(RTK_Latitude);
-        templon = dms_to_degrees(RTK_Longitude);
-        
-        
-        destination_point(templat, templon, .14, 0, &lat2, &lon2);
-        LocJudBit[0] = PointInsidePolygon(100,MapDat, lon2,lat2);
-        
-        destination_point(templat, templon, .38, 0, &lat2, &lon2);
-        LocJudBit[1] = PointInsidePolygon(100,MapDat, lon2,lat2);
-        
-        destination_point(templat, templon, .64, 0, &lat2, &lon2);
-        LocJudBit[2] = PointInsidePolygon(100,MapDat, lon2,lat2);
-        
-        destination_point(templat, templon, .88, 0, &lat2, &lon2);
-        LocJudBit[3] = PointInsidePolygon(100,MapDat, lon2,lat2);
-        
-        
-        uint32_t e = SysTick->VAL;
-        HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
-//        sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
-//        HAL_UART_Transmit_DMA(RTK_UART, str, strlen(str));
-        
-        taskEXIT_CRITICAL();
         
         osDelay(1);
     }
