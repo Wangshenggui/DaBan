@@ -224,17 +224,34 @@ void StartSlaveControlTask(void const * argument)
         if (RunGuidance_Struct.SysBeng == 1)
         {
 			
-			uint8_t temp = RTK_Speed*30;
-			if(temp > 0x40)
-			{
-				temp = 0x40;
-			}
-            TaskSendSpeed(0x20);
-			
-			HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
+            float speed = RTK_Speed*0.5144;//m.s
+//			float speed = 1;//m.s
             
-            HAL_GPIO_WritePin(RTK_LED_GPIO_Port,RTK_LED_Pin,GPIO_PIN_SET);
+            float L = 0.1;
+            
+            float value = 31*(speed/L)/10;
+            
+			if(value > 0x40)
+			{
+				value = 0x40;
+			}
+            
+            TaskSendSpeed(value);
+//            //\
+//            1/s   0.2m
+//            TaskSendSpeed(15);
+//            //\
+//            1/s   0.1m
+//            TaskSendSpeed(31);
+//            
+//            //\
+//            2/s   0.2m
+//            TaskSendSpeed(31);
+//            //\
+//            2/s   0.1m
+//            TaskSendSpeed(62);
 			
+            
 			Stop_n = 1;
 			xxx=0;
         }
@@ -245,8 +262,6 @@ void StartSlaveControlTask(void const * argument)
             {
 				xxx=0;
 				
-                HAL_GPIO_WritePin(RTK_LED_GPIO_Port,RTK_LED_Pin,GPIO_PIN_RESET);
-                
                 Stop_n = 0;
                 TaskSendSpeed(0);
                 osDelay(10);
@@ -384,7 +399,6 @@ void StartEXTIISRTask(void const * argument)
 //        sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
 //        HAL_UART_Transmit_DMA(RTK_UART, str, strlen(str));
         
-//        HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
         taskEXIT_CRITICAL();
         
         osDelay(1);

@@ -156,12 +156,9 @@ void USART4_IDLE_Handler()
             
             //定位模式
             UpperComTxBuf[53] = USART4_RxStruct.Buff[24];
-            
-            HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
         }
         else if(USART4_RxStruct.Buff[0]==0xeb && USART4_RxStruct.Buff[USART4_RxStruct.Rx_len-1]==0x90)
         {
-            HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
             //记录控制信息
             UARTControl_Stru.ControlSpeed = USART4_RxStruct.Buff[3];
             UARTControl_Stru.ButBit = USART4_RxStruct.Buff[1];
@@ -173,6 +170,7 @@ void USART4_IDLE_Handler()
                 osSemaphoreRelease(UARTControlBinSemHandle);//释放控制信号量
             }
         }
+		HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
         
         memset(USART4_RxStruct.Rx_Buff,0,200);
         HAL_UART_Receive_DMA(RTK_UART, USART4_RxStruct.Rx_Buff, 200);           //重启开始DMA传输
