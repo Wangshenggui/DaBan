@@ -29,7 +29,7 @@ void TIM7_PeriodElapsedCallback()
     if (j == 20)//200ms
     {
         j = 0;
-//        SendG070_RTK_Data();
+        SendG070_RTK_Data();
     }
 	
     //10ms¼ì²â

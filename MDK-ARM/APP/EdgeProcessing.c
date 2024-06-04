@@ -136,8 +136,8 @@ void EdgeComputing(LocationJudging_Structure locJudStr)
     
     uint32_t e = SysTick->VAL;
     HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
-    sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
-    HAL_UART_Transmit(RTK_UART, (uint8_t*)str, strlen(str),1000);
+//    sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
+//    HAL_UART_Transmit(RTK_UART, (uint8_t*)str, strlen(str),1000);
     
 }
 
