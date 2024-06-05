@@ -229,7 +229,7 @@ void StartSlaveControlTask(void const * argument)
         {
 			
             float speed = RTK_Speed*0.5144;//m.s
-//			float speed = 1;//m.s
+//			speed = 1;//m.s
             
             float L = 0.1;
             
@@ -240,6 +240,7 @@ void StartSlaveControlTask(void const * argument)
 				value = 0x40;
 			}
             
+			value=0x30;
             TaskSendSpeed(value);
 //            //\
 //            1/s   0.2m
@@ -280,7 +281,7 @@ void StartSlaveControlTask(void const * argument)
         //±ﬂ‘µº∆À„
         EdgeComputing(LocationJudging_Struct);
         
-        osDelay(100);
+        osDelay(1);
         
         
         
