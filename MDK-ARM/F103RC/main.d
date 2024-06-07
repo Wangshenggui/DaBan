@@ -7,14 +7,14 @@ f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 f103rc\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 f103rc\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h
 f103rc\main.o: ../Drivers/CMSIS/Include/core_cm3.h
-f103rc\main.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 f103rc\main.o: ../Drivers/CMSIS/Include/cmsis_version.h
 f103rc\main.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 f103rc\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 f103rc\main.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-f103rc\main.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 f103rc\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -49,7 +49,7 @@ f103rc\main.o: ../Core/Inc/tim.h
 f103rc\main.o: ../Core/Inc/usart.h
 f103rc\main.o: ../Core/Inc/gpio.h
 f103rc\main.o: ./APP/Slave_USART.h
-f103rc\main.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdbool.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 f103rc\main.o: ./APP/UpperCom_USART.h
 f103rc\main.o: ./Public/tim_it.h
 f103rc\main.o: ./APP/RTK_usart_it.h
