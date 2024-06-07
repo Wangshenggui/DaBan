@@ -89,7 +89,7 @@ void TaskSendSpeed(uint8_t speed)
             taskENTER_CRITICAL();
             SendSlaveSpeed(Slave_number, speed,0xc1);
             taskEXIT_CRITICAL();
-    //        osDelay(1);
+            osDelay(1);
 
             taskENTER_CRITICAL();
             SendSlaveReadCMD(Slave_number);
