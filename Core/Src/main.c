@@ -31,6 +31,7 @@
 #include "UpperCom_USART.h"
 #include "tim_it.h"
 #include "RTK_usart_it.h"
+#include "flash.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -64,119 +65,6 @@ void MX_FREERTOS_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-/***********************************************************
-****程序全称：数据高低位转换
-****程序功能：1001010101011100=0011101010101001
-****输 入: 要转换位数 要转换数据
-****返 回：转换后的数据
-***********************************************************/
-int data_to_data(unsigned char num, unsigned int data)
-{ //高低位..互换.
-    unsigned char i;
-    unsigned int m = 0;
-
-    for (i = 0; i < num; i++) {
-        m = (m << 1) + (data & 1);
-        data >>= 1;
-    }
-    return(m);
-}
-
-/***********************************************************
-****程序全称：数据高低位转换
-****程序功能：10010101=10101001
-****输 入: 要转换数据
-****返 回：转换后的数据
-***********************************************************/
-unsigned char reverse_bit(unsigned char data)
-{ //高低位..互换.
-    data = (data << 4) | (data >> 4);
-    data = ((data & 0x33) << 2) | ((data & 0xCC) >> 2);
-    data = ((data & 0x55) << 1) | ((data & 0xAA) >> 1);
-    return data;
-}
-//3，得到指定地址上的一个字节或字
-#define MEM_B( x ) ( *( (byte *) (x) ) )
-#define MEM_W( x ) ( *( (word *) (x) ) )
-
-//4，求最大值和最小值
-#define MAX( x, y ) ( ((x) > (y)) ? (x) : (y) )
-#define MIN( x, y ) ( ((x) < (y)) ? (x) : (y) )
-
-//5，得到一个field在结构体(struct)中的偏移量
-#define FPOS( type, field ) \
-    /*lint -e545 */ ((dword) & ((type*)0)->field) /*lint +e545 */
-
-//6, 得到一个结构体中field所占用的字节数
-#define FSIZ( type, field ) sizeof( ((type *) 0)->field )
-
-//7，按照LSB格式把两个字节转化为一个Word
-#define FLIPW( ray ) ( (((word) (ray)[0]) * 256) + (ray)[1] )
-//Globle Variate
-//8，按照LSB格式把一个Word转化为两个字节
-#define FLOPW( ray, val ) \
-    (ray)[0] = ((val) / 256); \
-    (ray)[1] = ((val) & 0xFF)
-
-//9，得到一个变量的地址（word宽度）
-#define B_PTR( var ) ( (byte *) (void *) &(var) )
-#define W_PTR( var ) ( (word *) (void *) &(var) )
-
-//10，得到一个字的高位和低位字节
-#define WORD_LO(xxx) ((byte) ((word)(xxx) & 255))
-#define WORD_HI(xxx) ((byte) ((word)(xxx) >> 8))
-
-//11，返回一个比X大的最接近的8的倍数
-#define RND8( x ) ((((x) + 7) / 8 ) * 8 )
-
-//12，将一个字母转换为大写
-#define UPCASE( c ) ( ((c) >= 'a' && (c) <= 'z') ? ((c) - 0x20) : (c) )
-
-//13，判断字符是不是10进值的数字
-#define DECCHK( c ) ((c) >= '0' && (c) <= '9')
-
-//14，判断字符是不是16进值的数字
-#define HEXCHK( c ) ( ((c) >= '0' && (c) <= '9') ||\
-    ((c) >= 'A' && (c) <= 'F') || \
-    ((c) >= 'a' && (c) <= 'f'))
-
-//15，防止溢出的一个方法
-#define INC_SAT( val ) (val = ((val)+1 > (val)) ? (val)+1 : (val))
-
-//16，返回数组元素的个数
-#define ARR_SIZE( a ) ( sizeof( (a) ) / sizeof( (a[0]) ) )
-
-//17，返回一个无符号数n尾的值MOD_BY_POWER_OF_TWO(X, n) = X % (2 ^ n)
-#define MOD_BY_POWER_OF_TWO( val, mod_by ) \
-    ((dword)(val) & (dword)((mod_by)-1))
-
-/*****************************************************************************
-**** Byte2BCD
-****
-****
-*****************************************************************************/
-unsigned char Byte2BCD(unsigned char Data)
-{
-    unsigned char Rslt = 0;
-
-    if (Data >= 99) return 0x99;
-    while (Data > 9)
-    {
-        Data -= 10;
-        Rslt += 0x10;
-    }
-    return(Rslt + Data);
-}
-
-/*****************************************************************************
-**** BCD2Byte
-****
-****
-*****************************************************************************/
-unsigned char BCD2Byte(unsigned char Data)
-{
-    return(((Data >> 4) & 0x0f) * 10 + (Data & 0x0f));
-}
 /* USER CODE END 0 */
 
 /**
@@ -232,6 +120,32 @@ int main(void)
     //开启定时器输入捕获和更新中断
     HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
     __HAL_TIM_ENABLE_IT(&htim3, TIM_IT_UPDATE);
+    
+    
+    
+    uint8_t in_data[5]={11,22,33,44,55};//要写入的数据
+    uint8_t out_data[5];//读存放
+    uint8_t str[100];
+    int i;
+    uint32_t STATUS = 0;
+    STATUS = Internal_WriteFlash(0x08030000, (uint16_t *)in_data, 5);
+    HAL_Delay(1000);
+    if(STATUS)
+    {
+        Internal_ReadFlash(0x08030000, (uint16_t *)out_data, 5);
+        sprintf((char*)str,"\r\n The Five Data Is : \r\n");
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+        for(i = 0; i < 5; i++)
+        {
+            sprintf((char*)str,"\r %d \r",out_data[i]);
+            HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+        }
+    }
+    
+    
+    
+    
+    
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

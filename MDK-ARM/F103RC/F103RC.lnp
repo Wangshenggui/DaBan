@@ -16,6 +16,7 @@
 "f103rc\rtk_usart_it.o"
 "f103rc\gps.o"
 "f103rc\edgeprocessing.o"
+"f103rc\flash.o"
 "f103rc\tim_it.o"
 "f103rc\systick.o"
 "f103rc\system.o"
@@ -45,8 +46,8 @@
 "f103rc\cmsis_os.o"
 "f103rc\heap_4.o"
 "f103rc\port.o"
-"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM3l_math.lib"
+"../Middlewares/ST/ARM/DSP/Lib/arm_cortexM3l_math.lib"
 --strict --scatter "F103RC\F103RC.sct"
---summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "F103RC.map" -o F103RC\F103RC.axf

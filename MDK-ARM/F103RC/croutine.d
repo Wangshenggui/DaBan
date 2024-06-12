@@ -1,7 +1,7 @@
 f103rc\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
 f103rc\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-f103rc\croutine.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
-f103rc\croutine.o: D:\MDK5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+f103rc\croutine.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+f103rc\croutine.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 f103rc\croutine.o: ../Core/Inc/FreeRTOSConfig.h
 f103rc\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 f103rc\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
