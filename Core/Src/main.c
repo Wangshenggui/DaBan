@@ -122,7 +122,8 @@ int main(void)
     __HAL_TIM_ENABLE_IT(&htim3, TIM_IT_UPDATE);
     
     
-    
+    #include <stdio.h>
+    #include <string.h>
     uint8_t in_data[5]={11,22,33,44,55};//要写入的数据
     uint8_t out_data[5];//读存放
     uint8_t str[100];

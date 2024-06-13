@@ -1,11 +1,3 @@
-
-/**
- * @file  flash.c
- *
- * @brief Create by AnKun on 2019/10/10
- *
- */
-
 #include "flash.h"
 #include <string.h>
 

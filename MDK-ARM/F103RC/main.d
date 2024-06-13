@@ -54,3 +54,5 @@ f103rc\main.o: ./APP/UpperCom_USART.h
 f103rc\main.o: ./Public/tim_it.h
 f103rc\main.o: ./APP/RTK_usart_it.h
 f103rc\main.o: ./APP/flash.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h

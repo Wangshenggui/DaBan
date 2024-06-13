@@ -159,15 +159,25 @@ void USART4_IDLE_Handler()
         }
         else if(USART4_RxStruct.Buff[0]==0xeb && USART4_RxStruct.Buff[USART4_RxStruct.Rx_len-1]==0x90)
         {
-            //记录控制信息
-            UARTControl_Stru.ControlSpeed = USART4_RxStruct.Buff[3];
-            UARTControl_Stru.ButBit = USART4_RxStruct.Buff[1];
-            UARTControl_Stru.Dir = USART4_RxStruct.Buff[2];
-            
-            //当水泵关闭时有效
-            if (RunGuidance_Struct.SysBeng == 0)
+            if(USART4_RxStruct.Buff[1]==99 && 
+                USART4_RxStruct.Buff[2]==99 && 
+            USART4_RxStruct.Buff[3]==99 && 
+            USART4_RxStruct.Buff[4]==99)
             {
-                osSemaphoreRelease(UARTControlBinSemHandle);//释放控制信号量
+                HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
+            }
+            else
+            {
+                //记录控制信息
+                UARTControl_Stru.ControlSpeed = USART4_RxStruct.Buff[3];
+                UARTControl_Stru.ButBit = USART4_RxStruct.Buff[1];
+                UARTControl_Stru.Dir = USART4_RxStruct.Buff[2];
+                
+                //当水泵关闭时有效
+                if (RunGuidance_Struct.SysBeng == 0)
+                {
+                    osSemaphoreRelease(UARTControlBinSemHandle);//释放控制信号量
+                }
             }
         }
 		HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);

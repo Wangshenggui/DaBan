@@ -20,8 +20,8 @@
 /* FLASH×ÜÒ³Êý */
 #define STM32FLASH_PAGE_NUM     (STM32FLASH_SIZE / STM32FLASH_PAGE_SIZE)
 
-#define WRITE_START_ADDR        ((uint32_t)0x08008000)
-#define WRITE_END_ADDR          ((uint32_t)0x0800C000)
+#define WRITE_START_ADDR        ((uint32_t)0x08030000)
+#define WRITE_END_ADDR          ((uint32_t)0x08040000)
 
 
 uint32_t Internal_ReadFlash(uint32_t addrStart, void *pData, uint32_t dataLen);
