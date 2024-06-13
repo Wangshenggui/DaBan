@@ -25,6 +25,7 @@ extern double RTK_Latitude;
 extern double RTK_CourseAngle;
 
 extern osSemaphoreId UARTControlBinSemHandle;
+extern osSemaphoreId RecCoordBinSemHandle;
 
 //标记RTK
 uint8_t RTK_Signal=0;
@@ -164,7 +165,7 @@ void USART4_IDLE_Handler()
             USART4_RxStruct.Buff[3]==99 && 
             USART4_RxStruct.Buff[4]==99)
             {
-                HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
+                osSemaphoreRelease(RecCoordBinSemHandle);//释放记录坐标信号量
             }
             else
             {

@@ -68,6 +68,7 @@ osSemaphoreId UpperComBinSemHandle;
 osSemaphoreId UARTControlBinSemHandle;
 osSemaphoreId PumpOffBinSemHandle;
 osSemaphoreId UpperRTK_BinSemHandle;
+osSemaphoreId RecCoordBinSemHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -143,6 +144,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of UpperRTK_BinSem */
   osSemaphoreDef(UpperRTK_BinSem);
   UpperRTK_BinSemHandle = osSemaphoreCreate(osSemaphore(UpperRTK_BinSem), 1);
+
+  /* definition and creation of RecCoordBinSem */
+  osSemaphoreDef(RecCoordBinSem);
+  RecCoordBinSemHandle = osSemaphoreCreate(osSemaphore(RecCoordBinSem), 1);
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
       /* add semaphores, ... */
@@ -373,6 +378,12 @@ void StartEXTIISRTask(void const * argument)
         {
             //上传RTK配置
             //HAL_GPIO_TogglePin(led_GPIO_Port, led_Pin);
+        }
+        
+        //记录坐标
+        if (osOK == osSemaphoreWait(RecCoordBinSemHandle, 0))
+        {
+            HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
         }
 
         
