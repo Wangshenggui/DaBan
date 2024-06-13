@@ -159,7 +159,6 @@ void USART4_IDLE_Handler()
         }
         else if(USART4_RxStruct.Buff[0]==0xeb && USART4_RxStruct.Buff[USART4_RxStruct.Rx_len-1]==0x90)
         {
-            HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
             if(USART4_RxStruct.Buff[1]==99 && 
                 USART4_RxStruct.Buff[2]==99 && 
             USART4_RxStruct.Buff[3]==99 && 
