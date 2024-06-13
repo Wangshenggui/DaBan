@@ -384,6 +384,9 @@ void StartEXTIISRTask(void const * argument)
         if (osOK == osSemaphoreWait(RecCoordBinSemHandle, 0))
         {
             HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
+//            taskENTER_CRITICAL();
+//            WRMapTest();
+//            taskEXIT_CRITICAL();
         }
 
         

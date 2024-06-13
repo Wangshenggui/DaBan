@@ -165,6 +165,7 @@ void USART4_IDLE_Handler()
             USART4_RxStruct.Buff[3]==99 && 
             USART4_RxStruct.Buff[4]==99)
             {
+                WRMapTest();
                 osSemaphoreRelease(RecCoordBinSemHandle);//释放记录坐标信号量
             }
             else

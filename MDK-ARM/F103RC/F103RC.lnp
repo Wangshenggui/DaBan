@@ -17,6 +17,7 @@
 "f103rc\gps.o"
 "f103rc\edgeprocessing.o"
 "f103rc\flash.o"
+"f103rc\map_data.o"
 "f103rc\tim_it.o"
 "f103rc\systick.o"
 "f103rc\system.o"

@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 
-#define POINTCOUNT 10
+#define POINTCOUNT 30
 typedef struct
 {
     uint8_t Flag[4];

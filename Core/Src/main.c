@@ -32,6 +32,7 @@
 #include "tim_it.h"
 #include "RTK_usart_it.h"
 #include "flash.h"
+#include "map_data.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -121,32 +122,7 @@ int main(void)
     HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
     __HAL_TIM_ENABLE_IT(&htim3, TIM_IT_UPDATE);
     
-    
-    #include <stdio.h>
-    #include <string.h>
-    uint8_t in_data[5]={11,22,33,44,55};//要写入的数据
-    uint8_t out_data[5];//读存放
-    uint8_t str[100];
-    int i;
-    uint32_t STATUS = 0;
-    STATUS = Internal_WriteFlash(0x08030000, (uint16_t *)in_data, 5);
-    HAL_Delay(1000);
-    if(STATUS)
-    {
-        Internal_ReadFlash(0x08030000, (uint16_t *)out_data, 5);
-        sprintf((char*)str,"\r\n The Five Data Is : \r\n");
-        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
-        for(i = 0; i < 5; i++)
-        {
-            sprintf((char*)str,"\r %d \r",out_data[i]);
-            HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
-        }
-    }
-    
-    
-    
-    
-    
+    HAL_UART_Transmit(&huart4, "重启系统\r\n", strlen((char*)"重启系统\r\n"),1000);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
