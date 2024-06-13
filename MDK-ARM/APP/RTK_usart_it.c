@@ -176,11 +176,11 @@ void USART4_IDLE_Handler()
                 //当水泵关闭时有效
                 if (RunGuidance_Struct.SysBeng == 0)
                 {
+                    HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
                     osSemaphoreRelease(UARTControlBinSemHandle);//释放控制信号量
                 }
             }
         }
-		HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
         
         memset(USART4_RxStruct.Rx_Buff,0,200);
         HAL_UART_Receive_DMA(RTK_UART, USART4_RxStruct.Rx_Buff, 200);           //重启开始DMA传输
