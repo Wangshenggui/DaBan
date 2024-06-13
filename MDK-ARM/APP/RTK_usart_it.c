@@ -159,6 +159,7 @@ void USART4_IDLE_Handler()
         }
         else if(USART4_RxStruct.Buff[0]==0xeb && USART4_RxStruct.Buff[USART4_RxStruct.Rx_len-1]==0x90)
         {
+            HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
             if(USART4_RxStruct.Buff[1]==99 && 
                 USART4_RxStruct.Buff[2]==99 && 
             USART4_RxStruct.Buff[3]==99 && 
@@ -176,11 +177,11 @@ void USART4_IDLE_Handler()
                 //当水泵关闭时有效
                 if (RunGuidance_Struct.SysBeng == 0)
                 {
+                    HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
                     osSemaphoreRelease(UARTControlBinSemHandle);//释放控制信号量
                 }
             }
         }
-		HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
         
         memset(USART4_RxStruct.Rx_Buff,0,200);
         HAL_UART_Receive_DMA(RTK_UART, USART4_RxStruct.Rx_Buff, 200);           //重启开始DMA传输
