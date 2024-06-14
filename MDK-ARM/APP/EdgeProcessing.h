@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 
-#define POINTCOUNT 10
+#define POINTCOUNT 30
 typedef struct
 {
     uint8_t Flag[4];
@@ -26,7 +26,7 @@ bool PointInsidePolygon(uint16_t numVertices, double vertices[][2], double x, do
 void destination_point(double lat1, double lon1, double distance, double bearing, double* lat2, double* lon2);
 
 //±ﬂ‘µº∆À„
-void EdgeComputing(LocationJudging_Structure locJudStr);
+void EdgeComputing(LocationJudging_Structure *locJudStr);
 
 
 
