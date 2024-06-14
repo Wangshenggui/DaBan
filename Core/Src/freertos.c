@@ -234,7 +234,8 @@ void StartSlaveControlTask(void const * argument)
         
 		static uint16_t xxx = 0;
         //Ë®±Ã¿ªÆôÊ±
-        if (RunGuidance_Struct.SysBeng == 1)
+//        if (RunGuidance_Struct.SysBeng == 1)
+        if(1)
         {
 			
             float speed = RTK_Speed*0.5144;//m.s
@@ -249,7 +250,7 @@ void StartSlaveControlTask(void const * argument)
 				value = 0x40;
 			}
             
-			value=0x30;
+//			value=0x30;
             TaskSendSpeed(value);
 //            //\
 //            1/s   0.2m

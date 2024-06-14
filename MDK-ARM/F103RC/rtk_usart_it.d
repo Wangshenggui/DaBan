@@ -51,3 +51,4 @@ f103rc\rtk_usart_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers
 f103rc\rtk_usart_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 f103rc\rtk_usart_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 f103rc\rtk_usart_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+f103rc\rtk_usart_it.o: APP\EdgeProcessing.h

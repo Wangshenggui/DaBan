@@ -139,24 +139,24 @@ void EdgeComputing(LocationJudging_Structure *locJudStr)
     double lat2, lon2;
     double templat, templon;
     
-    HAL_SYSTICK_Config(1000000);
-    int s = SysTick->VAL = 0;
+//    HAL_SYSTICK_Config(1000000);
+//    int s = SysTick->VAL = 0;
     
     //转换10进制度
     templat = dms_to_degrees(RTK_Latitude);
     templon = dms_to_degrees(RTK_Longitude);
     
     //第1个
-    destination_point(templat, templon, 0, 45, &lat2, &lon2);//推算出另外一个坐标
-    locJudStr->Flag[0] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, templon,templat);
+    destination_point(templat, templon, 0.14/1000, RTK_CourseAngle, &lat2, &lon2);//推算出另外一个坐标
+    locJudStr->Flag[0] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     //第2个
-    destination_point(templat, templon, .038, 45, &lat2, &lon2);
+    destination_point(templat, templon, 0.39/1000, RTK_CourseAngle, &lat2, &lon2);
     locJudStr->Flag[1] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     //第3个
-    destination_point(templat, templon, .064, 45, &lat2, &lon2);
+    destination_point(templat, templon, 0.64/1000, RTK_CourseAngle, &lat2, &lon2);
     locJudStr->Flag[2] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     //第4个
-    destination_point(templat, templon, .088, 45, &lat2, &lon2);
+    destination_point(templat, templon, 0.89/1000, RTK_CourseAngle, &lat2, &lon2);
     locJudStr->Flag[3] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     
     
@@ -173,8 +173,8 @@ void EdgeComputing(LocationJudging_Structure *locJudStr)
     }
     
     
-    uint32_t e = SysTick->VAL;
-    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
+//    uint32_t e = SysTick->VAL;
+//    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
 //    sprintf(str,"%f>>>%0.11lf,%0.11lf   %d\r\n\r\n", RTK_CourseAngle,lon2, lat2,(1000000-e)/72);
 //    HAL_UART_Transmit(RTK_UART, (uint8_t*)str, strlen(str),1000);
     

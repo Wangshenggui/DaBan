@@ -5,6 +5,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "EdgeProcessing.h"
 
 
 USART3_RxStructure USART3_RxStruct;
@@ -84,6 +85,7 @@ void TaskSendSpeed(uint8_t speed)
     {
         //±ßÔµedge
 //        if(Edge == )
+        if(LocationJudging_Struct.Flag[i])
         {
             Slave_number = i + 1;
             taskENTER_CRITICAL();
