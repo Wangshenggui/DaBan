@@ -10,14 +10,16 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "map_data.h"
 
-// 定义多边形的顶点坐标数组
-double MapDat[][2] = {
-    {116.436837,39.897967},
-    {116.437129,39.897964},
-    {116.437129,39.897729},
-    {116.436828,39.897743}
-};
+
+//// 定义多边形的顶点坐标数组
+//double MapDat[][2] = {
+//    {116.436837,39.897967},
+//    {116.437129,39.897964},
+//    {116.437129,39.897729},
+//    {116.436828,39.897743}
+//};
 
 LocationJudging_Structure LocationJudging_Struct = {0};
 
@@ -38,15 +40,39 @@ void EdgeComputing_Init(void)
     LocationJudging_Struct.Flag[2] = 0;
     LocationJudging_Struct.Flag[3] = 0;
     
-    // 赋值
-    for (int i = 0; i < POINTCOUNT; i++)
+    ReadMapDataStrutcure pStrutc = ReadLonAndLat();
+    
+    uint8_t str[100];
+    
+    sprintf((char*)str,"总共有 %d 个坐标\r\n",pStrutc.num);
+    HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    for(uint8_t i = 0;i<pStrutc.num;i++)
     {
-        LocationJudging_Struct.MapDat[i][0] = MapDat[i][0];
-        LocationJudging_Struct.MapDat[i][1] = MapDat[i][1];
+        sprintf((char*)str,"第%d个点 : %lf,",i+1,pStrutc.lon[i]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+        
+        sprintf((char*)str,"%lf\r\n",pStrutc.lat[i]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    }
+    
+    // 赋值
+    for (int i = 0; i < pStrutc.num; i++)
+    {
+        LocationJudging_Struct.MapDat[i][0] = pStrutc.lon[i];
+        LocationJudging_Struct.MapDat[i][1] = pStrutc.lat[i];
     }
     
     //点个数
-    LocationJudging_Struct.PointCount = POINTCOUNT;
+    LocationJudging_Struct.PointCount = pStrutc.num;
+    
+    for(uint8_t i = 0;i<LocationJudging_Struct.PointCount;i++)
+    {
+        sprintf((char*)str,"最终计算的第%d个点 : %lf,",i+1,LocationJudging_Struct.MapDat[i][0]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+        
+        sprintf((char*)str,"%lf\r\n",LocationJudging_Struct.MapDat[i][1]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    }
 }
 
 
@@ -105,7 +131,7 @@ void destination_point(double lat1, double lon1, double distance, double bearing
 
 
 //边缘计算
-void EdgeComputing(LocationJudging_Structure locJudStr)
+void EdgeComputing(LocationJudging_Structure *locJudStr)
 {
     char str[100];
     UNUSED(str);
@@ -121,17 +147,30 @@ void EdgeComputing(LocationJudging_Structure locJudStr)
     templon = dms_to_degrees(RTK_Longitude);
     
     //第1个
-    destination_point(templat, templon, .014, 45, &lat2, &lon2);//推算出另外一个坐标
-    locJudStr.Flag[0] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
+    destination_point(templat, templon, 0, 45, &lat2, &lon2);//推算出另外一个坐标
+    locJudStr->Flag[0] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, templon,templat);
     //第2个
     destination_point(templat, templon, .038, 45, &lat2, &lon2);
-    locJudStr.Flag[1] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
+    locJudStr->Flag[1] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     //第3个
     destination_point(templat, templon, .064, 45, &lat2, &lon2);
-    locJudStr.Flag[2] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
+    locJudStr->Flag[2] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
     //第4个
     destination_point(templat, templon, .088, 45, &lat2, &lon2);
-    locJudStr.Flag[3] = PointInsidePolygon(LocationJudging_Struct.PointCount,MapDat, lon2,lat2);
+    locJudStr->Flag[3] = PointInsidePolygon(locJudStr->PointCount,locJudStr->MapDat, lon2,lat2);
+    
+    
+//    sprintf((char*)str,"%d-%d-%d-%d\n",locJudStr->Flag[0],locJudStr->Flag[1],locJudStr->Flag[2],locJudStr->Flag[3]);
+//    HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    
+    if(locJudStr->Flag[0]==1 || locJudStr->Flag[1]==1 || locJudStr->Flag[2]==1 || locJudStr->Flag[3]==1)
+    {
+        HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
+    }
+    else
+    {
+        HAL_GPIO_TogglePin(RTK_LED_GPIO_Port,RTK_LED_Pin);
+    }
     
     
     uint32_t e = SysTick->VAL;

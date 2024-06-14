@@ -288,7 +288,7 @@ void StartSlaveControlTask(void const * argument)
         
         
         //±ﬂ‘µº∆À„
-        EdgeComputing(LocationJudging_Struct);
+        EdgeComputing(&LocationJudging_Struct);
         
         osDelay(1);
         
@@ -409,6 +409,8 @@ void StartEXTIISRTask(void const * argument)
                 sprintf((char*)str,"%lf\r\n",pStrutc.lat[i]);
                 HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
             }
+            
+            EdgeComputing_Init();
             
             taskEXIT_CRITICAL();
         }

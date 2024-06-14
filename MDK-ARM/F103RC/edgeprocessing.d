@@ -50,3 +50,5 @@ f103rc\edgeprocessing.o: APP\RTK_usart_it.h
 f103rc\edgeprocessing.o: ../Core/Inc/usart.h
 f103rc\edgeprocessing.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 f103rc\edgeprocessing.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+f103rc\edgeprocessing.o: APP\map_data.h
+f103rc\edgeprocessing.o: APP\flash.h
