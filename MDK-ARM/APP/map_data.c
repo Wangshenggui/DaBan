@@ -11,7 +11,8 @@
 
 ReadMapDataStrutcure ReadMapDataStrutc;
 
-
+//记录的次数
+uint8_t NumberOfRec=0;
 
 
 void WRMapTest(void)

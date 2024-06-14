@@ -34,6 +34,8 @@
 #include "RTK_usart_it.h"
 #include "EdgeProcessing.h"
 #include "RTK_usart_it.h"
+#include "map_data.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -151,6 +153,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
       /* add semaphores, ... */
+      //提前将信号量消耗
+      osSemaphoreWait(RecCoordBinSemHandle, 0);
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* Create the timer(s) */
@@ -384,9 +388,29 @@ void StartEXTIISRTask(void const * argument)
         if (osOK == osSemaphoreWait(RecCoordBinSemHandle, 0))
         {
             HAL_GPIO_TogglePin(led_GPIO_Port,led_Pin);
-//            taskENTER_CRITICAL();
-//            WRMapTest();
-//            taskEXIT_CRITICAL();
+            taskENTER_CRITICAL();
+            
+            NumberOfRec++;
+            WriteLonAndLat(NumberOfRec,NumberOfRec,
+                dms_to_degrees(RTK_Longitude),dms_to_degrees(RTK_Latitude));
+            
+            
+            ReadMapDataStrutcure pStrutc = ReadLonAndLat();
+    
+            uint8_t str[100];
+            
+            sprintf((char*)str,"总共有 %d 个坐标\r\n",pStrutc.num);
+            HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+            for(uint8_t i = 0;i<pStrutc.num;i++)
+            {
+                sprintf((char*)str,"第%d个点 : %lf,",i+1,pStrutc.lon[i]);
+                HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+                
+                sprintf((char*)str,"%lf\r\n",pStrutc.lat[i]);
+                HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+            }
+            
+            taskEXIT_CRITICAL();
         }
 
         

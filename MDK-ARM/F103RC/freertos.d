@@ -53,4 +53,7 @@ f103rc\freertos.o: ./APP/GPS.h
 f103rc\freertos.o: ./Public/system.h
 f103rc\freertos.o: ./APP/RTK_usart_it.h
 f103rc\freertos.o: ./APP/EdgeProcessing.h
+f103rc\freertos.o: ./APP/map_data.h
+f103rc\freertos.o: ./APP/flash.h
+f103rc\freertos.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 f103rc\freertos.o: ../Core/Inc/tim.h

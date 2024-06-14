@@ -16,6 +16,9 @@ typedef struct
 }ReadMapDataStrutcure;
 extern ReadMapDataStrutcure ReadMapDataStrutc;
 
+//记录的次数
+extern uint8_t NumberOfRec;
+
 
 void WriteLonAndLat(uint8_t Sum,uint8_t Num,double lon,double lat);
 ReadMapDataStrutcure ReadLonAndLat(void);

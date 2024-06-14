@@ -123,6 +123,22 @@ int main(void)
     __HAL_TIM_ENABLE_IT(&htim3, TIM_IT_UPDATE);
     
     HAL_UART_Transmit(&huart4, "重启系统\r\n", strlen((char*)"重启系统\r\n"),1000);
+    
+    
+    ReadMapDataStrutcure pStrutc = ReadLonAndLat();
+    
+    uint8_t str[100];
+    
+    sprintf((char*)str,"总共有 %d 个坐标\r\n",pStrutc.num);
+    HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    for(uint8_t i = 0;i<pStrutc.num;i++)
+    {
+        sprintf((char*)str,"第%d个点 : %lf,",i+1,pStrutc.lon[i]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+        
+        sprintf((char*)str,"%lf\r\n",pStrutc.lat[i]);
+        HAL_UART_Transmit(&huart4, str, strlen((char*)str),1000);
+    }
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
