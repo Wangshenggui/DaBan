@@ -81,15 +81,9 @@ void USART4_IDLE_Handler()
             RTK_Signal=1;
             
             //时间
-//            UpperComTxBuf[29] = USART4_RxStruct.Buff[1];
-//            UpperComTxBuf[30] = USART4_RxStruct.Buff[2];
-//            UpperComTxBuf[31] = USART4_RxStruct.Buff[3];
-            
-            #include "EdgeProcessing.h"
-            
-            UpperComTxBuf[29] = LocationJudging_Struct.Flag[0];
-            UpperComTxBuf[30] = LocationJudging_Struct.Flag[1];
-            UpperComTxBuf[31] = LocationJudging_Struct.Flag[3];
+            UpperComTxBuf[29] = USART4_RxStruct.Buff[1];
+            UpperComTxBuf[30] = USART4_RxStruct.Buff[2];
+            UpperComTxBuf[31] = USART4_RxStruct.Buff[3];
             
             //日期
             UpperComTxBuf[34] = USART4_RxStruct.Buff[21];
