@@ -33,6 +33,7 @@
 #include "RTK_usart_it.h"
 #include "flash.h"
 #include "map_data.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +54,8 @@ RunGuidance_Structure RunGuidance_Struct;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint32_t g_osRuntimeCounter = 0;
+char g_tasks_buf[512]; //用于存放显示数据
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -116,13 +118,13 @@ int main(void)
     HAL_UART_Receive_DMA(&huart4, USART4_RxStruct.Rx_Buff, 200);
 
     HAL_TIM_Base_Start_IT(&htim7);
-    HAL_TIM_Base_Start_IT(&htim4);
+    HAL_TIM_Base_Start_IT(&htim4); //开启freeRtos系统计数定时器，要求中断时间至少为100us
 
     //开启定时器输入捕获和更新中断
     HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
     __HAL_TIM_ENABLE_IT(&htim3, TIM_IT_UPDATE);
     
-    HAL_UART_Transmit(&huart4, "重启系统\r\n", strlen((char*)"重启系统\r\n"),1000);
+    HAL_UART_Transmit(&huart4, (uint8_t*)"重启系统\r\n", strlen((char*)"重启系统\r\n"),1000);
     
   /* USER CODE END 2 */
 
@@ -209,8 +211,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         TIM7_PeriodElapsedCallback();
     }
     
-    if (htim->Instance == TIM4)
-        TIM4_PeriodElapsedCallback();
+    if (htim->Instance == TIM4) {
+
+        g_osRuntimeCounter ++;
+
+    }
   /* USER CODE END Callback 1 */
 }
 

@@ -11,6 +11,10 @@
 #include "RTK_usart_it.h"
 
 
+extern osSemaphoreId UpperComBinSemHandle;
+extern//上传标志位
+uint8_t UpFlag;
+
 //定时器7回调处理
 //10ms
 void TIM7_PeriodElapsedCallback()
@@ -31,18 +35,8 @@ void TIM7_PeriodElapsedCallback()
         j = 0;
 //        SendG070_RTK_Data();
     }
-	
-    //10ms检测
-    PumpDisconnectDetection();
-}
-
-extern osSemaphoreId UpperComBinSemHandle;
-extern//上传标志位
-uint8_t UpFlag;
-//定时器4回调处理
-//10ms
-void TIM4_PeriodElapsedCallback()
-{
+    
+    
     static uint8_t t=0;
     
     t++;
@@ -54,8 +48,11 @@ void TIM4_PeriodElapsedCallback()
             osSemaphoreRelease(UpperComBinSemHandle);//释放上传信号量
         }
     }
-    
+	
+    //10ms检测
+    PumpDisconnectDetection();
 }
+
 
 
 

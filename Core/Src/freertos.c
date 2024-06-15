@@ -90,6 +90,80 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* GetTimerTaskMemory prototype (linked to static allocation support) */
 void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize );
 
+/* Hook prototypes */
+void configureTimerForRunTimeStats(void);
+unsigned long getRunTimeCounterValue(void);
+
+/* USER CODE BEGIN 1 */
+extern uint32_t g_osRuntimeCounter;
+/* Functions needed when configGENERATE_RUN_TIME_STATS is on */
+__weak void configureTimerForRunTimeStats(void)
+{
+    g_osRuntimeCounter = 0;
+}
+
+__weak unsigned long getRunTimeCounterValue(void)
+{
+    return g_osRuntimeCounter;
+}
+
+
+extern char g_tasks_buf[512]; //用于存放显示数据
+void debugShowOSTasksLists(void)
+{
+
+#if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) )
+
+memset(g_tasks_buf, 0, 512);
+
+strcat((char *)g_tasks_buf, "\r\n任务名称 运行状态 优先级 剩余堆栈 任务序号\r\n" );
+
+strcat((char *)g_tasks_buf, "---------------------------------------------\r\n");
+
+/* The list of tasks and their status */
+
+//osThreadList ((char *)(g_tasks_buf + strlen(g_tasks_buf)));
+
+vTaskList((char *)(g_tasks_buf + strlen(g_tasks_buf)));
+
+strcat((char *)g_tasks_buf, "---------------------------------------------\r\n");
+
+//strcat((char *)g_tasks_buf, "B : Blocked, R : Ready, D : Deleted, S : Suspended\r\n");
+
+strcat((char *)g_tasks_buf, "B : 阻塞, R : 就绪, D : 删除, S : 暂停\r\n");
+
+HAL_UART_Transmit(&huart4, (uint8_t *)g_tasks_buf, strlen((char*)(uint8_t *)g_tasks_buf),1000);
+
+#endif
+
+}
+
+void debugShowOSTasksRunTimeStats(void)
+{
+
+#if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) )
+
+memset(g_tasks_buf, 0, 512);
+
+strcat((char *)g_tasks_buf, "\r\n任务名称\t运行计数\t使用率\r\n" );
+
+strcat((char *)g_tasks_buf, "---------------------------------------------\r\n");
+
+/* displays the amount of time each task has spent in the Running state
+
+* in both absolute and percentage terms. */
+
+vTaskGetRunTimeStats((char *)(g_tasks_buf + strlen(g_tasks_buf)));
+
+strcat((char *)g_tasks_buf, "---------------------------------------------\r\n");
+
+HAL_UART_Transmit(&huart4, (uint8_t *)g_tasks_buf, strlen((char*)(uint8_t *)g_tasks_buf),1000);
+
+#endif
+
+}
+/* USER CODE END 1 */
+
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
@@ -286,7 +360,11 @@ void StartSlaveControlTask(void const * argument)
 			TaskSendRead();
         }
         
-        
+        #if 0
+        //任务监测
+        debugShowOSTasksLists();
+        debugShowOSTasksRunTimeStats();
+        #endif
         
         //边缘计算
         EdgeComputing(&LocationJudging_Struct);

@@ -14,3 +14,4 @@ f103rc\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 f103rc\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f103rc\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 f103rc\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h
+f103rc\tasks.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h

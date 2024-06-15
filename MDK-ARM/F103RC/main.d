@@ -56,3 +56,4 @@ f103rc\main.o: ./APP/RTK_usart_it.h
 f103rc\main.o: ./APP/flash.h
 f103rc\main.o: ./APP/map_data.h
 f103rc\main.o: ./APP/EdgeProcessing.h
+f103rc\main.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
