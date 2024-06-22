@@ -311,36 +311,57 @@ void StartSlaveControlTask(void const * argument)
         if (RunGuidance_Struct.SysBeng == 1)
 //        if(1)
         {
-			
             float speed = RTK_Speed*0.5144;//m.s
-//			speed = 1;//m.s
             
             float L = 0.2;
+            /*
+            0.1     快了，但是不能减小了
+            0.2     快了，但是不能减小了
+            0.3     快了，还是不减小好
+            0.4     快了，可以-1
+            0.5     快了，-1刚好
+            0.6     快了，-1刚好
+            0.7     快了，-1刚好
+            0.8     快了，-1刚好
+            0.9     快了，-1刚好
+            1.0     快了，-1刚好
+            1.1     快了，-1刚好
+            1.2     快了，-1刚好
+            */
             
-            float value = 31*(speed/L)/10;
+            /*
+            0.1     慢了，四舍五入又快了，-1四舍五入好一点
+            0.2     快了，但是不能减小了
+            0.3     慢了，四舍五入又快了
+            0.4     快了，差不多
+            0.5     刚好
+            0.6     快了
+            0.7     快了，-1刚好
+            0.8     快了，-1刚好
+            0.9     快了，-1刚好
+            1.0     快了，-1刚好
+            1.1     快了，-1刚好
+            1.2     快了，-1刚好
+            */
+            float value;
+            value = 50*(speed/L)/10.0;
+            
+            //适当补偿
+            if(L == 0.1)
+                if(speed > 0.3)
+                    value = value - 1;
+                
+                //四舍五入，要快不要慢
+            if(L == 0.2)
+                value = value + 0.5;
             
 			if(value > 0x40)
 			{
 				value = 0x40;
 			}
-            
 //			value=0x30;
             TaskSendSpeed(value);
-//            //\
-//            1/s   0.2m
-//            TaskSendSpeed(15);
-//            //\
-//            1/s   0.1m
-//            TaskSendSpeed(31);
-//            
-//            //\
-//            2/s   0.2m
-//            TaskSendSpeed(31);
-//            //\
-//            2/s   0.1m
-//            TaskSendSpeed(62);
 			
-            
 			Stop_n = 1;
 			xxx=0;
         }
