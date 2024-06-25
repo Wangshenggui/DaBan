@@ -102,6 +102,8 @@ void GPS_Init()
     taskENTER_CRITICAL();
     HAL_UART_Receive_IT(GPS_UART, &USART2_RxStruct.Receive, 1);
     taskEXIT_CRITICAL();
+    
+    osDelay(1000);
 }
 
 

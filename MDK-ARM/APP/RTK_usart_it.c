@@ -24,6 +24,9 @@ extern double RTK_Latitude;
 
 extern double RTK_CourseAngle;
 
+extern //Spacing默认是0.2m
+float LSpacing;
+
 extern osSemaphoreId UARTControlBinSemHandle;
 extern osSemaphoreId RecCoordBinSemHandle;
 
@@ -167,6 +170,20 @@ void USART4_IDLE_Handler()
             {
 //                WRMapTest();
                 osSemaphoreRelease(RecCoordBinSemHandle);//释放记录坐标信号量
+            }
+            else if(USART4_RxStruct.Buff[1]==88 && 
+                USART4_RxStruct.Buff[2]==88 && 
+            USART4_RxStruct.Buff[3]==88 && 
+            USART4_RxStruct.Buff[4]==88)
+            {
+                LSpacing=0.1;
+            }
+            else if(USART4_RxStruct.Buff[1]==77 && 
+                USART4_RxStruct.Buff[2]==77 && 
+            USART4_RxStruct.Buff[3]==77 && 
+            USART4_RxStruct.Buff[4]==77)
+            {
+                LSpacing=0.2;
             }
             else
             {

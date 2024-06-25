@@ -273,6 +273,9 @@ extern//上传标志位
 uint8_t UpFlag;
 extern 
 float RTK_Speed;
+
+//Spacing默认是0.15m
+float LSpacing = 0.15;
 /* USER CODE END Header_StartSlaveControlTask */
 void StartSlaveControlTask(void const * argument)
 {
@@ -313,7 +316,6 @@ void StartSlaveControlTask(void const * argument)
         {
             float speed = RTK_Speed*0.5144;//m.s
             
-            float L = 0.2;
             /*
             0.1     快了，但是不能减小了
             0.2     快了，但是不能减小了
@@ -343,16 +345,17 @@ void StartSlaveControlTask(void const * argument)
             1.1     快了，-1刚好
             1.2     快了，-1刚好
             */
+//            speed=1;
             float value;
-            value = 50*(speed/L)/10.0;
+            value = 50*(speed/LSpacing)/10.0;
             
             //适当补偿
-            if(L == 0.1)
+            if(LSpacing == 0.1)
                 if(speed > 0.3)
                     value = value - 1;
                 
                 //四舍五入，要快不要慢
-            if(L == 0.2)
+            if(LSpacing == 0.2 || LSpacing == 0.15)
                 value = value + 0.5;
             
 			if(value > 0x40)
